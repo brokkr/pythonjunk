@@ -11,7 +11,7 @@ from mutagen.id3._util import ID3NoHeaderError
 class musictree:
     def __init__(self):
         self.rootdir = os.getcwd()
-        self.genre_dic = {}
+        self.genre_lst = {}
         self.artist_list = os.listdir(self.rootdir)
         for artist in self.artist_list:
             self.artist(artist)
@@ -33,7 +33,8 @@ class musictree:
         print "Press Spacebar to quit loop"
         choice = readchar.readchar()
         print
-        # check genre_dic for top ten genres
+        # genredic = { k: self.genre_lst.count(k) for k in set(self.genre_lst) }
+        # topten = sorted(genredic, key=genredic.get, reverse=True)[:10]
         # print list of top ten genres, keywords 0-9
         # readchar for kwyword or enter to enter manually
         if choice == 'a':
@@ -52,7 +53,7 @@ class musictree:
         '''for the path provided, write genre in all music files under that path'''
         # use os.walk to get list of file_paths
         # run appropriate tag writing function on file_paths
-        # update genre_dic
+        # append genre_list
         pass
 
     def write_genre(file_path, genre):
