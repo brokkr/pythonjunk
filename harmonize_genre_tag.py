@@ -4,25 +4,28 @@ import os
 import sys
 
 import readchar
+
 from mutagen.easyid3 import EasyID3
 from mutagen.flac import FLAC
 from mutagen.id3._util import ID3NoHeaderError
 
-class musictree:
-    def __init__(self):
-        self.rootdir = os.getcwd()
+class MusicTree:
+    def __init__(self, rootdir):
+        self.rootdir = rootdir
         self.genre_lst = {}
         self.artist_list = os.listdir(self.rootdir)
         for artist in self.artist_list:
             self.artist(artist)
 
-    def artist(artist):
-        if os.path.isfile(artist):
-            continue
+    def artist(self, artist):
+        artist_path = os.path.join(self.rootdir, artist)
+        if os.path.isfile(artist_path):
+            return
         print artist
         album_list = []
-        for album in os.listdir(os.path.join(rootdir, artist)):
-            if os.path.isfile(album):
+        for album in os.listdir(artist_path):
+            album_path = os.path.join(artist_path, album)
+            if os.path.isfile(album_path):
                 continue
             album_list.append(album)
             print '   ' + album
@@ -49,14 +52,14 @@ class musictree:
             sys.exit()
         print
 
-    def harmonize_dir(path, genre):
+    def harmonize_dir(self, path, genre):
         '''for the path provided, write genre in all music files under that path'''
         # use os.walk to get list of file_paths
         # run appropriate tag writing function on file_paths
         # append genre_list
         pass
 
-    def write_genre(file_path, genre):
+    def write_genre(self, file_path, genre):
         '''write genre to a single file'''
         # identify file type
         # set module
@@ -64,3 +67,6 @@ class musictree:
         # write genre
         # close
         pass
+
+MusicTree(os.getcwd())
+
