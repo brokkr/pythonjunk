@@ -30,25 +30,26 @@ class MusicTree:
             album_list.append(album)
             print '   ' + album
         # if there is only one album, no need for distinction
-        print "Press 'a' to input a common genre for the artist"
-        print "Press 'l' to input a genre for each album"
-        print "Press Enter to skip directory"
-        print "Press Spacebar to quit loop"
+        print "\nPress Enter to input a common genre for the artist"
+        if len(album_list) > 1:
+            print "Press 'l' to input a genre for each album"
+        print "Press Spacebar to skip directory"
+        print "Press 'q' to quit loop"
         choice = readchar.readchar()
         print
         # genredic = { k: self.genre_lst.count(k) for k in set(self.genre_lst) }
         # topten = sorted(genredic, key=genredic.get, reverse=True)[:10]
         # print list of top ten genres, keywords 0-9
         # readchar for kwyword or enter to enter manually
-        if choice == 'a':
+        if choice == '\r':
             genre = raw_input("Enter artist genre: ")
         elif choice == 'l':
             for album in album_list:
                 print '   ' + album
                 genre = raw_input("   Enter album genre: ")
-        elif choice == '\r':
-            pass
         elif choice == ' ':
+            pass
+        elif choice == 'q':
             sys.exit()
         print
 
