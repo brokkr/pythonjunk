@@ -72,14 +72,22 @@ class MusicTree:
         print path
         print genre
         time.sleep(2)
+        for (dirname, subdirlist, filelist) in os.walk(path):
+            for filename in filelist:
+                file_path = os.path.join(dirname, filename)
+                file_ext = os.path.splitext(file_path)[1]
+                if file_ext == '.flac' or file_ext == '.mp3':
+                    self.write_genre(file_path, file_ext, genre)
 
-    def write_genre(self, file_path, genre):
+    def write_genre(self, file_path, file_ext, genre):
         '''write genre to a single file'''
         # identify file type
         # set module
         # create metadata object
         # write genre
         # close
+        print file_path, file_ext, genre
+        time.sleep(1)
         pass
 
 MusicTree(os.getcwd())
