@@ -34,12 +34,13 @@ class MusicTree:
         genredic = { k: self.genre_lst.count(k) for k in set(self.genre_lst) }
         topten = sorted(genredic, key=genredic.get, reverse=True)[:10]
         for entry in enumerate(topten):
-            print entry[0], '   )', entry[1]
+            print entry[0], '    ', entry[1]
         print
         # if there is only one album, no need for distinction
-        print "Enter) Input a common genre for the artist"
-        print "Space) Skip directory"
-        print "Q    ) Quit loop"
+        print "Enter  Input a common genre for the artist"
+        print "L      Input a genre for each album"
+        print "Space  Skip directory"
+        print "Q      Quit loop"
         choice = readchar.readchar()
         if choice == ' ':
             return
