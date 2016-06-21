@@ -1,4 +1,15 @@
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
+#
+# harmonize_genre_tag.py (CC0)
+# http://creativecommons.org/publicdomain/zero/1.0/
+# To the extent possible under law, the author, Mads Michelsen, 
+# has waived all copyright and related or neighboring rights to 
+# this software.
+#
+# This script runs on a music collection and writes genre tags to music files
+# therein on an artist/album basis. Common genre values are gathered and 
+# available for easy use.
 
 import os
 import sys
@@ -12,6 +23,7 @@ from mutagen.id3._util import ID3NoHeaderError
 
 class MusicTree:
     def __init__(self, rootdir):
+        '''run user input loop on main root dir'''
         self.rootdir = rootdir
         self.genre_lst = []
         self.artist_list = os.listdir(self.rootdir)
@@ -19,6 +31,7 @@ class MusicTree:
             self.artist(artist)
 
     def artist(self, artist):
+        '''get user input for each top-level directory'''
         artist_path = os.path.join(self.rootdir, artist)
         if os.path.isfile(artist_path):
             return
@@ -65,13 +78,7 @@ class MusicTree:
                 self.harmonize_dir(os.path.join(artist_path, album), genre)
 
     def harmonize_dir(self, path, genre):
-        '''for the path provided, write genre in all music files under that path'''
-        # use os.walk to get list of file_paths
-        # run appropriate tag writing function on file_paths
-        # append genre_list
-        print path
-        print genre
-        time.sleep(2)
+        '''for the path write genre in all music files under that path'''
         for (dirname, subdirlist, filelist) in os.walk(path):
             for filename in filelist:
                 file_path = os.path.join(dirname, filename)
@@ -88,5 +95,6 @@ class MusicTree:
         tag['genre'] = genre
         tag.save()
 
-MusicTree(os.getcwd())
+if __name__ == "__main__":
+    MusicTree(os.getcwd())
 
