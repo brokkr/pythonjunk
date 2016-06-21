@@ -81,14 +81,12 @@ class MusicTree:
 
     def write_genre(self, file_path, file_ext, genre):
         '''write genre to a single file'''
-        # identify file type
-        # set module
-        # create metadata object
-        # write genre
-        # close
-        print file_path, file_ext, genre
-        time.sleep(1)
-        pass
+        if file_ext == '.flac':
+            tag = FLAC(file_path)
+        elif file_ext == '.mp3':
+            tag = EasyID3(file_path)
+        tag['genre'] = genre
+        tag.save()
 
 MusicTree(os.getcwd())
 
