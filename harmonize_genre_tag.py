@@ -12,7 +12,7 @@ from mutagen.id3._util import ID3NoHeaderError
 class MusicTree:
     def __init__(self, rootdir):
         self.rootdir = rootdir
-        self.genre_lst = {}
+        self.genre_lst = []
         self.artist_list = os.listdir(self.rootdir)
         for artist in self.artist_list:
             self.artist(artist)
@@ -21,6 +21,7 @@ class MusicTree:
         artist_path = os.path.join(self.rootdir, artist)
         if os.path.isfile(artist_path):
             return
+        os.system('clear')
         print artist
         album_list = []
         for album in os.listdir(artist_path):
@@ -29,28 +30,37 @@ class MusicTree:
                 continue
             album_list.append(album)
             print '   ' + album
-        # if there is only one album, no need for distinction
-        print "\nPress Enter to input a common genre for the artist"
-        if len(album_list) > 1:
-            print "Press 'l' to input a genre for each album"
-        print "Press Spacebar to skip directory"
-        print "Press 'q' to quit loop"
-        choice = readchar.readchar()
         print
-        # genredic = { k: self.genre_lst.count(k) for k in set(self.genre_lst) }
-        # topten = sorted(genredic, key=genredic.get, reverse=True)[:10]
-        # print list of top ten genres, keywords 0-9
+        genredic = { k: self.genre_lst.count(k) for k in set(self.genre_lst) }
+        topten = sorted(genredic, key=genredic.get, reverse=True)[:10]
+        for entry in enumerate(topten):
+            print entry[0], '   )', entry[1]
+        print
+        # if there is only one album, no need for distinction
+        print "Enter) Input a common genre for the artist"
+        print "Space) Skip directory"
+        print "Q    ) Quit loop"
+        choice = readchar.readchar()
+        if choice == ' ':
+            return
+        elif choice == 'q':
+            sys.exit()
+        elif choice.isdigit():
+            try:
+                genre = topten[int(choice)]
+                self.genre_lst.append(genre)
+            except IndexError:
+                pass
+        print
         # readchar for kwyword or enter to enter manually
         if choice == '\r':
             genre = raw_input("Enter artist genre: ")
+            self.genre_lst.append(genre)
         elif choice == 'l':
             for album in album_list:
                 print '   ' + album
                 genre = raw_input("   Enter album genre: ")
-        elif choice == ' ':
-            pass
-        elif choice == 'q':
-            sys.exit()
+                self.genre_lst.append(genre)
         print
 
     def harmonize_dir(self, path, genre):
