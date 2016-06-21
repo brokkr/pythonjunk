@@ -2,6 +2,7 @@
 
 import os
 import sys
+import time
 
 import readchar
 
@@ -25,22 +26,20 @@ class MusicTree:
         print artist
         album_list = []
         for album in os.listdir(artist_path):
-            album_path = os.path.join(artist_path, album)
-            if os.path.isfile(album_path):
+            if os.path.isfile(os.path.join(artist_path, album)):
                 continue
             album_list.append(album)
-            print '   ' + album
+            print '  ' + album
         print
         genredic = { k: self.genre_lst.count(k) for k in set(self.genre_lst) }
         topten = sorted(genredic, key=genredic.get, reverse=True)[:10]
         for entry in enumerate(topten):
             print entry[0], '    ', entry[1]
-        print
-        # if there is only one album, no need for distinction
-        print "Enter  Input a common genre for the artist"
+        print "\nEnter  Input a common genre for the artist"
         print "L      Input a genre for each album"
         print "Space  Skip directory"
         print "Q      Quit loop"
+        genre = False
         choice = readchar.readchar()
         if choice == ' ':
             return
@@ -50,26 +49,29 @@ class MusicTree:
             try:
                 genre = topten[int(choice)]
                 self.genre_lst.append(genre)
+                self.harmonize_dir(artist_path, genre)
             except IndexError:
                 pass
         print
-        # readchar for kwyword or enter to enter manually
         if choice == '\r':
             genre = raw_input("Enter artist genre: ")
             self.genre_lst.append(genre)
+            self.harmonize_dir(artist_path, genre)
         elif choice == 'l':
             for album in album_list:
                 print '   ' + album
                 genre = raw_input("   Enter album genre: ")
                 self.genre_lst.append(genre)
-        print
+                self.harmonize_dir(os.path.join(artist_path, album), genre)
 
     def harmonize_dir(self, path, genre):
         '''for the path provided, write genre in all music files under that path'''
         # use os.walk to get list of file_paths
         # run appropriate tag writing function on file_paths
         # append genre_list
-        pass
+        print path
+        print genre
+        time.sleep(2)
 
     def write_genre(self, file_path, genre):
         '''write genre to a single file'''
