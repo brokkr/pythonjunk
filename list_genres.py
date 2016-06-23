@@ -39,6 +39,13 @@ class MusicTree:
 
         self.genre_dic = { k: self.genre_lst.count(k) for k in set(self.genre_lst) }
         self.ranked = sorted(self.genre_dic, key=self.genre_dic.get, reverse=True)
+
+        tmp_file = '/tmp/genres.csv'
+        with open(tmp_file, 'w') as f:
+            for key in self.genre_dic:
+                line = str(key + ',' + str(self.genre_dic[key]) + '\n')
+                f.write(line)
+
         #for genre in self.ranked[:20]:
         #    print genre, self.genre_dic[genre]
 
